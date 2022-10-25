@@ -176,7 +176,8 @@ int main(int argc, char **argv)
 return 0;  
 }
 
-/*coursework overview:
+/*
+overview
 This is the second coursework for SET07109 Programming Fundamentals.
 This coursework is worth 36% of the total marks available for this module.
 In this coursework you are to build a command line application, called
