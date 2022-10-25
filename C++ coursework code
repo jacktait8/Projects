@@ -175,3 +175,22 @@ int main(int argc, char **argv)
 
 return 0;  
 }
+
+/*coursework overview:
+This is the second coursework for SET07109 Programming Fundamentals.
+This coursework is worth 36% of the total marks available for this module.
+In this coursework you are to build a command line application, called
+preprocess, that contains basic functionality of a C language preprocessor.
+Your application will read in a .c file containing source code written in the
+C programming language, and output a preprocessed version of that file
+according to the specification below.
+Your application must be written entirely in C++. You are not permitted to use functions from the C standard library, 
+such as printf, strlen or strtok. More specifically, you are not allowed to use functions in the
+C++ headers that begin with c (e.g. cstdio, cstring, cstdlib etc.).
+You may use any other functions in the C++ standard library, and
+should use modern C++ libraries such as iostream, string etc.
+You are not permitted to use any other prewritten functions outside of the
+C++ standard library. You may of course create your own classes, functions
+and structs as required. You should ask the module leader if you have any
+doubt as to what is permitted.
+*/
