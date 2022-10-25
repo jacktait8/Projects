@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <string.h>
+#define LINE_LENGTH 1000
+
+int main(int argc, char** argv[])
+{
+	//read in command line arguemnet
+	printf("%s\n", argv[1]);
+	FILE *input_file = fopen(argv[1], "r");
+	char output_filename[100];
+	
+	strcpy(output_filename, argv[1]);
+	
+	int fileNameLength = 0;
+	fileNameLength = strlen(output_filename);
+	output_filename [fileNameLength - 1] = 'o';
+	FILE *output_file = fopen(output_filename, "w");
+	
+	//create variables 
+	char line[LINE_LENGTH];
+	int countLine = 0;
+	int countChar = 0;
+	int countCode = 0;
+	int nonBlankLine = 0;
+	int commentLine = 0;
+	int Bracket= 0;
+	int curlyBracket = 0;
+	int squareBracket =0;
+	
+	
+	
+	
+	while(fgets(line, LINE_LENGTH, input_file) !=NULL)
+	{
+		//for loop to count through lines
+		for(int i= 0; i< strlen(line);i++)
+			{
+				//check each line for brackets 
+				if(line[i] == '(' || line[i] == ')')
+				{ 
+					//increment each time condition is met 
+					Bracket++;
+				}
+				//check each line for brackets 
+				if(line[i] == '[' || line[i] == ']')
+				{
+					//increment each time condition is met 
+					squareBracket++;
+				}
+				//check each line for brackets 
+				if(line[i] == '{' || line[i] == '}')
+					{
+						//increment each time condition is met 
+						curlyBracket++;
+					}
+			
+				//check each line for conditions
+				if(line[i] != '\n' && line[i] !='\t' && line[i] != ' ')
+				{
+					//increment each time condition is met 
+					nonBlankLine++; 
+					//break to make sure the same line is not counted twice 
+					break;
+				}
+			}
+			//check each line for conditions 
+			if(strlen(line) >= 2 && line[0] == '/' && line[1] == '/')
+			{
+				//increment each time condition is met 
+				 commentLine++;
+			}
+			//else statement to print file without comments
+			else
+			{
+				//use fprintf so that it prints to file 
+				fprintf(output_file, "%s", line);
+			}
+			
+			
+		//increment each time we go through a line
+		countLine++;
+		//for loop to count through each line
+		for(int i =0; i< strlen(line);i++)
+		{
+			//incremenet one time for every character
+			countChar++;
+		}
+		
+	}
+	//minus two variables to get correct number of lines of code 
+	countCode = nonBlankLine - commentLine;
+	
+	//print out number of lines
+	printf("number of lines:%d \n", countLine);
+	printf("number of characters:%d \n", countChar);
+	printf("number of lines of code:%d \n", countCode);
+	
+	
+	if(Bracket %2==0 && curlyBracket %2==0 && squareBracket %2==0)
+	{ 
+		printf("brackets are balanced\n");
+	}
+	else
+	{
+		printf("brackets are imbalanced\n");
+	}
+	fclose(input_file);
+	fclose(output_file);
+	return 0;
+}
+
+/*
+overview
+This is the first coursework for SET07109 Programming Fundamentals. This
+coursework is worth 24% of the total marks available for this module.
+In this coursework you are to build a command line application, called
+canalyse, that reads in a file of C source code contained in a .c file, and
+analyses the file to:
+1. Count the total number of lines.
+2. Count the total number of characters.
+3. Count the number of lines of code (excluding lines with only comments
+or white space).
+4. Produce an output file that has the comments removed but that is
+otherwise identical to the input .c file.
+5. Counts the number of functions defined in the input .c file.
+6. Determines whether the C code contains any imbalanced brackets .
+This is defined as having an opening [, (, or { without a matching
+closing bracket, where closing brackets need to be in the same order as
+opening brackets.
+To do this, your application will treat the .c file as a text file, and will
+use functions from the C standard library such as fgets to read in a line
+at a time into a character array and process it. The specification below will
+go into further detail about exactly what the output from your application
+should be, and the types of input file it should be able to work with.
+*/
