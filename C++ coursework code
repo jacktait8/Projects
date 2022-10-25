@@ -1,0 +1,177 @@
+// author: Jack Tait 
+// preprocessor coursework 
+// last modified: 27/04/2022
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <fstream>
+
+using namespace std;
+
+//class
+class hashDefine
+{
+	private:
+	string value;
+	string constName;
+
+	public:
+		void setValue(string token)
+	{
+		value = token;
+	}
+	
+	void setConstantName(string token)
+	{
+		constName = token;
+	}
+	
+	string returnValue()
+	{
+		return value;
+	}
+	
+	string returnconstantName()
+	{
+		return constName;
+	}
+	
+};
+
+//function
+void processInclude(string processToken, ofstream &outputFile)
+{
+	string fileName;
+	string line;
+	string token;
+	
+	for(int i = 1; i < processToken.size() - 1; i++)
+	{
+	fileName += processToken[i];
+	}
+	ifstream inputFile(fileName);
+	
+	while(getline(inputFile, line))
+     {
+		stringstream stream(line);
+
+		while(stream >> token)
+	   {
+			if(token == "#include")  
+			{
+				stream >> token;
+				processInclude(token, outputFile);
+				break;
+			}
+			if(token == "//")
+		   {
+				break;
+		   }
+			else
+		   {
+				outputFile << token << ' ';
+		   }
+		   
+	    }
+		outputFile << '\n';
+	 }
+
+
+}
+	 
+int main(int argc, char **argv)
+{
+	string fileName;
+	string outputFileName;
+	
+	
+	for(int i = 0; i < argc; i++)
+	{
+		string temp = argv[i];
+		if(temp == "-i")
+		{
+			int y = i + 1;
+		fileName = argv[y];
+		outputFileName = argv[y];
+		outputFileName[(outputFileName.size()-1)] = 'o';
+		}
+	}
+	cout << fileName << endl;
+	
+	// variables 
+	string line;
+	string token;
+	vector<hashDefine> vecDefine;
+	int vecHashIndex = -1;
+	
+	
+	ifstream inputFile(fileName);
+	ofstream outputFile(outputFileName);
+   
+
+	// start while loop to go through the tokens in the file 
+	while(getline(inputFile, line))
+   {
+		stringstream stream(line);
+
+		bool printBool = true;
+		int hashVecFlag = 0;
+		
+		while(stream >> token)
+		{
+		   
+			for(int i = 0; i <= vecHashIndex; i++)
+		   {
+				if(token == vecDefine.at(i).returnconstantName())
+			   {
+					token = vecDefine.at(i).returnValue();
+			   }
+			   
+		   }
+		   
+			if(hashVecFlag == 2)
+		   {
+				vecDefine.at(vecHashIndex).setValue(token);
+		   }
+		   
+			if(hashVecFlag == 1)
+		   {
+				vecDefine.at(vecHashIndex).setConstantName(token);
+				hashVecFlag++;
+		   }
+		   
+			if(token == "#define")
+			{
+				hashDefine hd;
+				vecDefine.push_back(hd);
+				printBool = false;
+				vecHashIndex++;
+				hashVecFlag = 1;
+			}
+			
+			if(token == "#include")  
+			{
+				stream >> token;
+				processInclude(token, outputFile);
+				break;
+			}
+			if(token == "//")
+			{
+				printBool = false;
+			}
+		
+			if(printBool == true)
+		    {
+				outputFile << token << ' ';
+		    }
+		
+		   
+		}
+			   
+		outputFile << '\n';               
+	}
+
+return 0;  
+}
