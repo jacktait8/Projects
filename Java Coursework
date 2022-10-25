@@ -1,0 +1,263 @@
+Question 1 :
+public class Answer01 {
+	public static void main(String[] args) {
+		System.out.println("Question 01");
+		/*
+		 * Add your code below
+		 */
+		String[] weatherData = WeatherData.getData();
+		int count = 0;
+
+		for (int i = 0; i < weatherData.length; i++)
+			if (weatherData[i].contains("DONNA NOOK (3385)")) {
+				count++;
+			}
+		System.out.println(count);
+
+
+Out print : 
+
+Question 01
+8604
+
+
+		
+
+Question 2 :
+	}
+public class Answer02 {
+	public static void main(String[] args) {
+		System.out.println("Question 02");
+    
+		String[] weatherData = WeatherData.getData();
+		String lowestLine = "";
+		double lowest = 40;
+		for (int i = 1; i < weatherData.length; i++) {
+
+			String line = weatherData[i];
+			String[] lineData = weatherData[i].split(",");
+			int siteid = Integer.parseInt(lineData[0]);
+			if (siteid == 3100) {
+				// System.out.print(lineData[9]);
+				double temp = Double.parseDouble(lineData[9]);
+				if (temp < lowest) {
+					lowest = temp;
+					lowestLine = line;
+
+				}
+			}
+		}
+		System.out.println(lowest);
+
+		String[] data = lowestLine.split(",");
+		int siteid = Integer.parseInt(data[0]);
+		String siteName = data[1];
+		double latitude = Double.parseDouble(data[2]);
+		double longitude = Double.parseDouble(data[3]);
+		int year = Integer.parseInt(data[4]);
+		int month = Integer.parseInt(data[5]);
+		int date = Integer.parseInt(data[6]);
+		int hour = Integer.parseInt(data[7]);
+		int windspeed = Integer.parseInt(data[8]);
+		double Temperature = Double.parseDouble(data[9]);
+		System.out.println("" + siteid + " " + siteName + " " + year + " " + month + " " + date + " " + hour);
+
+	}
+}
+}
+
+Out print :
+Question 02
+-0.4
+3100 TIREE (3100) 2015 1 19 9
+
+
+Question 3 :
+public class Answer03 {
+	public static void main(String[] args) {
+		System.out.println("Question 03");
+		String[] weatherData = WeatherData.getData();
+
+		String lowestLine = "";
+		double lowest = 40;
+		int correctMonth = 12;
+		double highest = -10;
+		double temperature = -10;
+		double sum = 0;
+		int count = 0;
+
+		for (int j = 1; j < weatherData.length; j++) {
+
+			String line = weatherData[j];
+			String[] lineData = line.split(",");
+			int siteid1 = Integer.parseInt(lineData[0]);
+			if (siteid1 == 3100) {
+				int month = Integer.parseInt(lineData[5]);
+				if (month == 1) {
+					double temp = Double.parseDouble(lineData[9]);
+					if (temp < lowest) {
+						lowest = temp;
+						lowestLine = line;
+
+					}
+				}
+
+			}
+		}
+		for (int i = 1; i < weatherData.length; i++) {
+
+			String line = weatherData[i];
+			String[] lineData = line.split(",");
+			int siteid1 = Integer.parseInt(lineData[0]);
+			if (siteid1 == 3100) {
+				int month = Integer.parseInt(lineData[5]);
+				if (month == 1) {
+					double temp = Double.parseDouble(lineData[9]);
+					if (temp > highest) {
+						highest = temp;
+						lowestLine = line;
+
+					}
+
+				}
+			}
+		}
+		for (int i = 1; i < weatherData.length; i++) {
+
+			String line = weatherData[i];
+			String[] lineData = line.split(",");
+			int siteid1 = Integer.parseInt(lineData[0]);
+			if (siteid1 == 3100) {
+				count++;
+				double temp = Double.parseDouble(lineData[9]);
+				sum = sum + temp;
+			}
+
+		}
+		double mean = sum/count;
+		System.out.println(lowest);
+		System.out.println(highest);
+		System.out.println(mean);
+
+	}
+}
+
+
+Out print :
+
+Question 03
+-0.4
+11.1
+9.061889823064382
+
+
+
+Question 4 :
+
+public class Answer04 {
+	public static void main(String[] args) {
+		System.out.println("Question 04");
+
+		double days = 0;
+		double temp = 0;
+		int count = 0;
+		int hotDays = 0;
+		ArrayList<String> Dates = new ArrayList();
+		String[] weatherData = WeatherData.getData();
+
+		for (int j = 1; j < weatherData.length; j++) {
+
+			String line = weatherData[j];
+			String[] lineData = line.split(",");
+			int siteid = Integer.parseInt(lineData[0]);
+
+			int year = Integer.parseInt(lineData[4]);
+			if (year == 2015) {
+				double temp1 = Double.parseDouble(lineData[9]);
+				if (temp1 >= 25) {
+
+					String date = lineData[5] + " " + lineData[6];
+
+					if (!Dates.contains(date)) {
+						Dates.add(date);
+
+					}
+					int month = Integer.parseInt(lineData[5]);
+					int date1 = Integer.parseInt(lineData[6]);
+					hotDays++;
+
+				}
+
+			}
+		}
+			
+			System.out.println(Dates.size());
+
+		}
+	}
+
+
+Out print :
+
+Question 04
+31
+
+
+Question 5 
+
+public class Answer05 {
+	public static void main(String[] args) {
+		System.out.println("Question 05");
+	
+
+		String[] weatherData = WeatherData.getData();
+double highest = 0;
+String northernStation = "";
+		for (int j = 1; j < weatherData.length; j++) {
+
+			String line = weatherData[j];
+			String[] lineData = line.split(",");
+			double latitude = Double.parseDouble(lineData[2]);
+			
+			if (latitude > highest) {
+				highest = latitude;
+				northernStation = line;
+				}
+			
+		}			
+	
+	
+		String[] data = northernStation.split(",");
+		int siteid = Integer.parseInt(data[0]);
+		String siteName = data[1];
+		double latitude = Double.parseDouble(data[2]);
+		double longitude = Double.parseDouble(data[3]);
+		int year = Integer.parseInt(data[4]);
+		int month = Integer.parseInt(data[5]);
+		int date = Integer.parseInt(data[6]);
+		int hour = Integer.parseInt(data[7]);
+		int windspeed = Integer.parseInt(data[8]);
+		double Temperature = Double.parseDouble(data[9]);
+		System.out.println(siteid + " "+ siteName +" " + latitude + " "+ longitude );
+		
+		
+			}
+	
+}
+
+
+Out print :
+Question 05
+3002 BALTASOUND (3002) 60.749 -0.854
+
+
+/*
+overview
+You are supplied with a Java library containing weather data recorded at 
+different locations in the UK during the year 2015. A Second Java library is 
+provided that allows geographic coordinates to be plotted on a world map. 
+You are required to write code to answer questions about the data and output 
+the correct answers.
+
+disclaimer, first programming project ever :)
+*/
